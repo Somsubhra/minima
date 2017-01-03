@@ -7,6 +7,9 @@ class Instance:
         self.hyper_visor = hyper_visor
         self.conn = hyper_visor.get_connection()
 
+    #############################################
+    #           All the listing methods         #
+    #############################################
     def get_all_instances(self):
         return self.conn.listAllDomains(0)
 

@@ -9,6 +9,9 @@ class HyperVisor:
             print "Failed to open connection to qemu:///system"
             raise Exception("Connection failed")
 
+    ######################################
+    #     All the information methods    #
+    ######################################
     def print_host_info(self):
         print "Hostname: " + str(self.get_host_name())
         print "Free Memory: " + str(self.get_free_memory_in_bytes()) + " bytes"
