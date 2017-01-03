@@ -6,4 +6,4 @@ hyper_visor = HyperVisor()
 hyper_visor.print_host_info()
 
 instance = Instance(hyper_visor)
-instance.print_all_domains()
+instance.print_all_instances()
