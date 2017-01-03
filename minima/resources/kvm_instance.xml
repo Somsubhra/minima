@@ -1,0 +1,33 @@
+<domain type='kvm'>
+    <name>$instance_name</name>
+    <uuid>$instance_uuid</uuid>
+    <memory>$instance_memory</memory>
+    <vcpu>$instance_vcpu</vcpu>
+    <os>
+        <type arch='x86_64' machine='pc'>hvm</type>
+        <boot dev='hd'/>
+        <boot dev='cdrom'/>
+    </os>
+    <clock offset='utc'/>
+    <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+    <on_crash>destroy</on_crash>
+    <devices>
+        <emulator>/usr/bin/kvm</emulator>
+        <disk type='file' device='disk'>
+            <source file='/var/lib/libvirt/images/$disk_file.img'/>
+            <driver name='qemu' type='raw'/>
+            <target dev='hda'/>
+        </disk>
+        <disk type='file' device='cdrom'>
+            <source file='/var/lib/libvirt/images/$image_file.iso'/>
+            <target dev='hdc' bus='ide'/>
+        </disk>
+        <interface type='bridge'>
+            <mac address='$mac_address'/>
+            <source bridge='br0'/>
+        </interface>
+        <input type='mouse' bus='ps2'/>
+        <graphics type='vnc' port='-1' listen='$ip_address'/>
+    </devices>
+</domain>

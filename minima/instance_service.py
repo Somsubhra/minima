@@ -1,5 +1,7 @@
 import libvirt
 import time
+import uuid
+from string import Template
 
 
 class InstanceService:
@@ -202,3 +204,26 @@ class InstanceService:
     def get_instance_current_time(instance):
         struct = instance.getTime()
         return time.ctime(float(struct['seconds']))
+
+    #################################
+    #      Instance provisioning    #
+    #################################
+    def create_instance(self, name, memory, vcpu, image, virtualization="kvm"):
+        instance_id = str(uuid.uuid4())
+
+        instance_variables = {
+            "instance_name": name,
+            "instance_uuid": instance_id,
+            "instance_memory": memory,
+            "instance_vcpu": vcpu,
+            "disk_file": "minima_disk_" + instance_id,
+            "image_file": image,
+            "mac_address": "52:54:00:d8:65:c9",
+            "ip_address": "127.0.0.1"
+        }
+
+        domain_file = open("minima/resources/" + virtualization + "_instance.xml")
+        domain_config = Template(domain_file.read())
+        domain_config = domain_config.substitute(instance_variables)
+
+        print domain_config
