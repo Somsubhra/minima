@@ -1,7 +1,8 @@
 import libvirt
+import time
 
 
-class Instance:
+class InstanceService:
 
     def __init__(self, hyper_visor):
         self.hyper_visor = hyper_visor
@@ -118,3 +119,86 @@ class Instance:
 
     def get_instance_by_uuid(self, instance_uuid):
         return self.conn.lookupByUUID(instance_uuid)
+
+    ##############################
+    #     Details methods        #
+    ##############################
+    @staticmethod
+    def get_instance_id(instance):
+        return instance.ID()
+
+    @staticmethod
+    def get_instance_uuid(instance):
+        return instance.UUIDString()
+
+    @staticmethod
+    def get_instance_os_type(instance):
+        return instance.OSType()
+
+    @staticmethod
+    def instance_has_snapshot(instance):
+        return instance.hasCurrentSnapshot()
+
+    @staticmethod
+    def instance_has_managed_save_image(instance):
+        return instance.hasManagedSaveImage()
+
+    @staticmethod
+    def get_instance_name(instance):
+        return instance.name()
+
+    @staticmethod
+    def get_instance_hostname(instance):
+        return instance.hostname()
+
+    @staticmethod
+    def get_instance_hardware_info(instance):
+        state, max_memory, memory, cpus, cpu_time = instance.info()
+        return {
+            "state": state,
+            "max_memory": max_memory,
+            "memory": memory,
+            "cpus": cpus,
+            "cpu_time": cpu_time
+        }
+
+    @staticmethod
+    def get_instance_hardware_state(instance):
+        return InstanceService.get_instance_hardware_info(instance)["state"]
+
+    @staticmethod
+    def get_instance_max_memory(instance):
+        return InstanceService.get_instance_hardware_info(instance)["max_memory"]
+
+    @staticmethod
+    def get_instance_memory(instance):
+        return InstanceService.get_instance_hardware_info(instance)["memory"]
+
+    @staticmethod
+    def get_instance_cpus(instance):
+        return InstanceService.get_instance_hardware_info(instance)["cpus"]
+
+    @staticmethod
+    def get_instance_cpu_time(instance):
+        return InstanceService.get_instance_hardware_info(instance)["cpu_time"]
+
+    @staticmethod
+    def is_instance_active(instance):
+        return instance.isActive()
+
+    @staticmethod
+    def is_instance_persistent(instance):
+        return instance.isPersistent()
+
+    @staticmethod
+    def is_instance_updated(instance):
+        return instance.isUpdated()
+
+    @staticmethod
+    def get_instance_state(instance):
+        return instance.state()
+
+    @staticmethod
+    def get_instance_current_time(instance):
+        struct = instance.getTime()
+        return time.ctime(float(struct['seconds']))

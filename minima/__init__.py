@@ -1,2 +1,2 @@
 from hypervisor import HyperVisor
-from instance import Instance
+from instance_service import InstanceService
