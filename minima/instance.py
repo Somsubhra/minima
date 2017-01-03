@@ -106,3 +106,15 @@ class Instance:
                 print domain.name()
         else:
             print "No instance found on hypervisor " + self.hyper_visor.get_host_name()
+
+    #############################
+    #       Lookup methods      #
+    #############################
+    def get_instance_by_id(self, instance_id):
+        return self.conn.lookupByID(instance_id)
+
+    def get_instance_by_name(self, instance_name):
+        return self.conn.lookupByName(instance_name)
+
+    def get_instance_by_uuid(self, instance_uuid):
+        return self.conn.lookupByUUID(instance_uuid)
