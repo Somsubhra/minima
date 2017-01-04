@@ -212,7 +212,7 @@ class InstanceService:
         instance_id = str(uuid.uuid4())
 
         instance_variables = {
-            "instance_name": name,
+            "instance_name": instance_id + "-" + name,
             "instance_uuid": instance_id,
             "instance_memory": memory,
             "instance_vcpu": vcpu,
@@ -226,4 +226,14 @@ class InstanceService:
         domain_config = Template(domain_file.read())
         domain_config = domain_config.substitute(instance_variables)
 
-        print domain_config
+        domain = self.conn.defineXML(domain_config)
+
+        if not domain:
+            print "Failed to create instance"
+            return None
+
+        if domain.create() < 0:
+            print "Failed to boot instance"
+            return None
+
+        return domain
