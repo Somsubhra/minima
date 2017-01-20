@@ -237,3 +237,22 @@ class InstanceService:
             return None
 
         return domain
+
+    #######################################
+    #          Instance management        #
+    #######################################
+    @staticmethod
+    def stop_instance(instance):
+        instance.shutdown()
+
+    @staticmethod
+    def destroy_instance(instance):
+        instance.destroy()
+
+    @staticmethod
+    def suspend_instance(instance):
+        instance.suspend()
+
+    @staticmethod
+    def resume_instance(instance):
+        instance.resume()
